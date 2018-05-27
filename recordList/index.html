@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>奔康-记录列表</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" href="../favicon.ico">
+	<link href="../css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	<link href="../css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+	<link href="../css/animate.min.css" rel="stylesheet">
+	<link href="../css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	<link href="../css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="../css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox">
+			<div class="ibox-content m-b-sm border-bottom">
+				<div class="p-xs">
+					<div class="pull-left m-r-md">
+						<img src="../img/benkang.jpg" class="img-circle" style="width:70px;height:70px;">
+					</div>
+					<h2>奔康专属系统</h2>
+					<span>帅康所选，必属精品</span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<form role="form" class="form-inline" id="form1">
+					<div class="btn-group" id="table_tool" role="group" >
+						<button type="button" class="btn btn-outline btn-default" id="add">
+							<i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+						</button>
+					</div>
+
+					<div class="input-group" style="width:300px;float: right;margin-right: -15px">
+						<input id="search_val" type="text" class="form-control" placeholder="姓名"> <span class="input-group-btn"> <button type="button" id="search_btn" class="btn btn-primary">搜索
+						</button> </span>
+					</div>
+				</form>
+				
+				<table id="my_table"  data-classes="table table-hover table-condensed"  data-striped="true" data-height="600" >
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="Modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<form class="form-horizontal m-t" id="add_data" autocomplete="off">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title text-left" id="myModalLabel">
+							<span>添加新记录</span>
+						</h4>
+					</div>
+					<div class="modal-body red" id="war">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">案件编号：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="no"
+								name="no">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">姓名：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="name"
+								name="name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">电话：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="phone"
+								name="phone">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">受伤时间：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control layer-date laydate-icon" id="injured_time"
+								name="injured_time">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">鉴定时间：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control layer-date laydate-icon" id="identify_time"
+								name="identify_time">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">收案员：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="accept_person"
+								name="accept_person">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">内勤处理员：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="inside_service_person"
+								name="inside_service_person">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">律师：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="lawyer" name="lawyer">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">代理费：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="agency_fees"
+								name="agency_fees">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">备注：</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="note"
+								name="note">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-7 col-sm-offset-3">
+								<div class="col-sm-4 btn btn-primary" id="add_submit">添加</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</form>
+	</div>
+
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script src="../js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../js/content.min.js?v=1.0.0"></script>
+	<script src="../js/plugins/toastr/toastr.min.js"></script>
+	<script src="../js/plugins/layer/laydate2/laydate.js"></script>
+	<script src="../js/plugins/layer/layer.min.js"></script>
+	<script src="../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+	<script type="text/javascript" src="https://cdn1.lncld.net/static/js/3.6.8/av-min.js"></script>
+	<script type="text/javascript" src="../js/initLeanCloud.js"></script>
+	<script type="text/javascript" src="../js/reuseMethods.js"></script>
+	<script type="text/javascript" src="index.js"></script>
+</body>
+</html>

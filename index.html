@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>奔康-登录</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" href="favicon.ico">
+	<link href="./css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	<link href="./css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+	<link href="./css/animate.min.css" rel="stylesheet">
+	<link href="./css/style.min862f.css?v=4.1.0" rel="stylesheet">
+</script>
+</head>
+<body class="gray-bg">
+	 <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1><img class="img-circle" style="width:70px;height:70px;" src="./img/benkang.jpg"></h1>
+            </div>
+            <h3>奔康专属</h3>
+            <form class="form-signin" role="form">
+                <div class="form-group">
+                    <input  id="username" class="form-control" placeholder="用户名" required="">
+                </div>
+                <div class="form-group">
+                    <input id="password" type="password" class="form-control" placeholder="密码" required="">
+                </div>
+                <button  id="login" type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            </form>
+        </div>
+    </div>
+
+	<script src="./js/jquery.min.js?v=2.1.4"></script>
+	<script src="./js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="./js/content.min.js?v=1.0.0"></script>
+	<script src="./js/plugins/toastr/toastr.min.js"></script>
+	<script type="text/javascript" src="https://cdn1.lncld.net/static/js/3.6.8/av-min.js"></script>
+
+	<script type="text/javascript" src="./js/initLeanCloud.js"></script>
+  <script type="text/javascript" src="./js/reuseMethods.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+       if (isCurrentUser()) {
+         window.location.href = "./recordList/index.html";
+       }else{
+          $(".form-signin").on('submit', function(e) {
+            e.preventDefault();
+            login();
+          });
+       }
+    })
+		
+		function login() {
+  			var username = $('#username').val();
+  			var password = $('#password').val();
+
+  			AV.User.logIn(username, password).then(function (loginedUser) {
+    			window.location.href = "./recordList/index.html";
+  			}, function (error) {
+    			console.log(error)
+  			});
+		}
+	</script>
+</body>
+
+</html>
