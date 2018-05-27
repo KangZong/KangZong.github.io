@@ -70,7 +70,7 @@ function loadData(like){
 	 	for (var i = 0; i < results.length; i++) {
 	 		j = results[i]._serverData
 	 		j.id = results[i].id
-	 		json.push(j)
+	 		json.unshift(j)
 	 	}
 	 	data = json
 	 	initTable()
