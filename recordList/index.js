@@ -216,6 +216,7 @@ function createOrUpdate(create){
     workRecord.set('agency_fees',$('#agency_fees').val())
     workRecord.set('note',$('#note').val())
     workRecord.set('material',$('#material').val())
+    workRecord.set('is_del',0)
 
     if(id == '' && create==1){
         workRecord.save().then(function (result) {
