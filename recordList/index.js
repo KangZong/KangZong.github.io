@@ -13,49 +13,28 @@ $(document).ready(function(){
 
 $("#add").click(function() {
 	console.log('打开模态框')
+    $('#modal_name').html('添加新纪录')
+    $('#add_data')[0].reset();  
 	$("#Modal").modal('show')
+    $('#add_submit').show()
+    $('#modify_submit').hide()
 })
 
 
 
 //添加记录
 $('#add_submit').click(function(){
-	console.log('添加记录')
-	no = $('#no').val()
-	name = $('#name').val()
-	phone = $('#phone').val()
-	if(no =='' ||name==''||phone==''){
-		console.log('案件编号、姓名、电话 不可为空!')
-		toastr.error('案件编号、姓名、电话 不可为空!')
-	}
-	WorkRecord = AV.Object.extend('WorkRecord');
-	var workRecord = new WorkRecord()
-	workRecord.set('no',no)
-	workRecord.set('name',name)
-	workRecord.set('phone',phone)
-	workRecord.set('injured_time',$('#injured_time').val())
-	workRecord.set('identify_time',$('#identify_time').val())
-	workRecord.set('accept_person',$('#accept_person').val())
-	workRecord.set('inside_service_person',$('#inside_service_person').val())
-	workRecord.set('lawyer',$('#lawyer').val())
-	workRecord.set('agency_fees',$('#agency_fees').val())
-	workRecord.set('note',$('#note').val())
+    createOrUpdate(1)
+})
 
-	workRecord.save().then(function (result) {
-		$("#Modal").modal('hide')
-    	console.log("保存成功！")
+//修改记录
+$('#modify_submit').click(function(){
+    createOrUpdate(2)
+})
 
-        var j = result._serverData
-        j.id = result.id
-        data.unshift(j)
-        initTable()
-
-    	toastr.success("保存成功")
-    	$('#add_data')[0].reset();  
-    }, function (error) {
-    	console.log("保存失败！")
-    	toastr.error('保存失败 请稍后再试！')
-    });
+$('#close_modal').click(function(){
+    console.log('模态框关闭')
+    $('#add_data')[0].reset(); 
 })
 
 /**
@@ -141,6 +120,9 @@ function initTable(){
                 field: 'agency_fees',
                 title: '代理费'
             }, {
+                field: 'material',
+                title: '材料'
+            }, {
                 field: 'note',
                 title: '备注'
             }, {
@@ -154,19 +136,38 @@ function initTable(){
 
  function operateFormatter(value, row, index) {  
     return [  
-        '<button id="btn_table_del" type="button" class="RoleOfA btn btn-danger">删除</button>',  
+        '<button id="btn_table_del" type="button" class="table_del btn btn-danger btn-xs">删除</button><br>'+
+        '<button id="btn_table_modify" type="button" class="table_modify btn btn-primary btn-xs">修改</button>',  
     ].join('');  
  }
 
 window.operateEvents = {  
-    'click .RoleOfA': function(e, value, row, index) {  
-        console.log(row)
+    'click .table_del': function(e, value, row, index) {  
         layer.confirm("确认删除这条记录？", {
 			btn: ['确认', '取消'] //按钮
 		}, function () {
 			delRecord(row.id)
 			layer.closeAll('dialog')
 		})
+    },
+     'click .table_modify': function(e, value, row, index) {  
+        $('#add_submit').hide()
+        $('#modify_submit').show()
+        $('#modal_name').html('修改')
+
+        $('#table_id').val(row.id)
+        $('#no').val(row.no)
+        $('#name').val(row.name)
+        $('#phone').val(row.phone)
+        $('#injured_time').val(row.injured_time)
+        $('#accept_person').val(row.accept_person)
+        $('#inside_service_person').val(row.inside_service_person)
+        $('#lawyer').val(row.lawyer)
+        $('#agency_fees').val(row.agency_fees)
+        $('#material').val(row.material)
+        $('#note').val(row.note)
+
+        $("#Modal").modal('show')
     }  
 }
 
@@ -181,6 +182,64 @@ function delRecord(id){
   	},function(error){
   		console.log(error)
   	})
+}
+
+
+function createOrUpdate(create){
+    no = $('#no').val()
+    name = $('#name').val()
+    phone = $('#phone').val()
+    id = $('#table_id').val()
+    if(no =='' ||name==''||phone==''){
+        console.log('案件编号、姓名、电话 不可为空!')
+        toastr.error('案件编号、姓名、电话 不可为空!')
+    }
+    if(id == '' && create==1){ //新增
+        WorkRecord = AV.Object.extend('WorkRecord');
+        var workRecord = new WorkRecord()
+    }else if (id != '' && create==2){ //更新
+        var workRecord = AV.Object.createWithoutData('WorkRecord', id)
+    }else{
+        toastr.error('出错了 请稍后再试！')
+        $("#Modal").modal('hide')
+        $('#add_data')[0].reset();  
+        return;
+    }
+    workRecord.set('no',no)
+    workRecord.set('name',name)
+    workRecord.set('phone',phone)
+    workRecord.set('injured_time',$('#injured_time').val())
+    workRecord.set('identify_time',$('#identify_time').val())
+    workRecord.set('accept_person',$('#accept_person').val())
+    workRecord.set('inside_service_person',$('#inside_service_person').val())
+    workRecord.set('lawyer',$('#lawyer').val())
+    workRecord.set('agency_fees',$('#agency_fees').val())
+    workRecord.set('note',$('#note').val())
+    workRecord.set('material',$('#material').val())
+
+    if(id == '' && create==1){
+        workRecord.save().then(function (result) {
+            var j = result._serverData
+            j.id = result.id
+            data.unshift(j)
+            initTable()
+            toastr.success("保存成功")
+        }, function (error) {
+            
+            toastr.error('保存失败 请稍后再试！')
+        });
+    }else if(id != '' && create==2){
+        workRecord.save().then(function(){
+            toastr.success("修改成功")
+            loadData('')
+        },function(error){
+            toastr.error('修改失败 请稍后再试！')
+        })
+    }else{
+         toastr.error('出错了 请稍后再试！')
+    }
+    $("#Modal").modal('hide')
+    $('#add_data')[0].reset();  
 }
 
 

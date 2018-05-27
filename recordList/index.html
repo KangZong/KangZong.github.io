@@ -48,7 +48,7 @@
 					</div>
 				</form>
 				
-				<table id="my_table"  data-classes="table table-hover table-condensed"  data-striped="true" data-height="600" >
+				<table id="my_table"  data-classes="table table-hover table-condensed"  data-striped="true" data-height="1200" >
 				</table>
 
 			</div>
@@ -60,14 +60,21 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="close_modal">
 							&times;
 						</button>
 						<h4 class="modal-title text-left" id="myModalLabel">
-							<span>添加新记录</span>
+							<span id="modal_name">添加新记录</span>
 						</h4>
 					</div>
 					<div class="modal-body red" id="war">
+						<div class="form-group" style="display: none">
+							<label class="col-sm-3 control-label">id</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="table_id"
+								name="table_id" readonly>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">案件编号：</label>
 							<div class="col-sm-7">
@@ -131,6 +138,13 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-3 control-label">材料</label>
+							<div class="col-sm-7">
+								<input type="text" class="form-control"  id="material"
+								name="material">
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label">备注：</label>
 							<div class="col-sm-7">
 								<input type="text" class="form-control"  id="note"
@@ -140,7 +154,8 @@
 
 						<div class="form-group">
 							<div class="col-sm-7 col-sm-offset-3">
-								<div class="col-sm-4 btn btn-primary" id="add_submit">添加</div>
+								<div class="col-sm-3 btn btn-primary" id="add_submit">添加</div>
+								<div class="col-sm-3 btn btn-primary" id="modify_submit">修改</div>
 							</div>
 						</div>
 						<div class="clear"></div>
