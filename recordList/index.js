@@ -100,6 +100,11 @@ function loadData(like){
 	 })
 }
 
+$('#sign_out').click(function(){
+     AV.User.logOut();
+     window.location.href = "../index.html";
+})
+
 /**
  * 渲染表格
  * @return {[type]} [description]
